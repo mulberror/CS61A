@@ -28,6 +28,7 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    return 0 if n == 0 else (1 if n % 10 == 8 else 0) + num_eights(n // 10)
 
 
 def digit_distance(n):
@@ -50,6 +51,11 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        return digit_distance(n // 10) + abs(n % 10 - n // 10 % 10)
+    
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -72,7 +78,13 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+    def recur(x, f, g):
+        if x == n + 1:
+            return 0
+        else:
+            return f(x) + recur(x + 1, g, f)
 
+    return recur(1, odd_func, even_func)
 
 def next_larger_coin(coin):
     """Returns the next larger coin in order.
@@ -126,7 +138,24 @@ def count_coins(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    ans = 0
+    def dfs(n, last):
+        nonlocal ans
+        if n == 0:
+            ans = ans + 1
+            return
 
+        def g(x):
+            if n - x >= 0:
+                dfs(n - x, x)
+            if x == 1:
+                return
+            g(next_smaller_coin(x))
+        
+        g(last)
+    
+    dfs(total, 25)
+    return ans
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
@@ -161,6 +190,14 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if n == 1:
+        print_move(start, end)
+        return
+    
+    temp = 6 - start - end
+    move_stack(n - 1, start, temp)
+    print_move(start, end)
+    move_stack(n - 1, temp, end)
 
 
 from operator import sub, mul
@@ -176,5 +213,5 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
 
+    return lambda x : (lambda f, x : 1 if x == 1 else mul(x, f(f, sub(x, 1))))(lambda f, x : 1 if x == 1 else mul(x, f(f, sub(x, 1))), x)
