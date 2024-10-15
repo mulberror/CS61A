@@ -9,17 +9,20 @@ test = {
           >>> p0 = [2, 2, 3]
           >>> p1 = [6, 1, 2]
           >>> fastest_words({'words': ['What', 'great', 'luck'], 'times': [p0, p1]})
-          [['What'], ['great', 'luck']]
+          4a4e62b364d558f02688a55484282829
+          # locked
           >>> p0 = [2, 2, 3]
           >>> p1 = [6, 1, 3]
           >>> fastest_words({'words': ['What', 'great', 'luck'], 'times': [p0, p1]})  # with a tie, choose the first player
-          [['What', 'luck'], ['great']]
+          21948e3a2e3aabdfabb12961f4ed55b2
+          # locked
           >>> p2 = [4, 3, 1]
           >>> fastest_words({'words': ['What', 'great', 'luck'], 'times': [p0, p1, p2]})
-          [['What'], ['great'], ['luck']]
+          b4e41659727998e91b11c2efc755a649
+          # locked
           """,
           'hidden': False,
-          'locked': False,
+          'locked': True,
           'multiline': False
         },
         {

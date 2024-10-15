@@ -9,14 +9,17 @@ test = {
           >>> ps = ['short', 'really long', 'tiny']
           >>> s = lambda p: len(p) <= 5
           >>> pick(ps, s, 0) # remember to put quotes ('') around strings!
-          'short'
+          576aa252be1440e6b1bc6094de4ee0f0
+          # locked
           >>> pick(ps, s, 1)
-          'tiny'
+          dfdb050cd536672094e908a6410b3d8f
+          # locked
           >>> pick(ps, s, 2)
-          ''
+          13ac7705dbd6d13abb5dd2b7a58411e2
+          # locked
           """,
           'hidden': False,
-          'locked': False,
+          'locked': True,
           'multiline': False
         },
         {

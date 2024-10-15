@@ -9,19 +9,23 @@ test = {
           >>> typed = ['I', 'have', 'begun']
           >>> source = ['I', 'have', 'begun', 'to', 'type']
           >>> print_progress({'id': 1, 'progress': 0.6})
-          ID: 1 Progress: 0.6
+          7dec972cfcf800f55611786b2e34a0f5
+          # locked
           >>> report_progress(typed, source, 1, print_progress) # print_progress is called on the report
-          ID: 1 Progress: 0.6
-          0.6
+          7dec972cfcf800f55611786b2e34a0f5
+          8a7ca0fb9304b22439e05fbd46a5c3a5
+          # locked
           >>> report_progress(['I', 'begun'], source, 2, print_progress)
-          ID: 2 Progress: 0.2
-          0.2
+          27cc2eb5aa5042d120f4957920e13f41
+          4fd43e1db6a4391c142e227bf296dacb
+          # locked
           >>> report_progress(['I', 'hve', 'begun', 'to', 'type'], source, 3, print_progress)
-          ID: 3 Progress: 0.2
-          0.2
+          f026f312fddd258e8dae5bb4f0565a64
+          4fd43e1db6a4391c142e227bf296dacb
+          # locked
           """,
           'hidden': False,
-          'locked': False,
+          'locked': True,
           'multiline': False
         },
         {

@@ -1,0 +1,4 @@
+(none memo_diff and none recur optimize) brute force: 496856
+memo_diff and none recur optimize: 84304
+none memo_diff and recur optimize: 83876
+memo_diff and recur optimize: 34541
