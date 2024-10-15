@@ -1,4 +1,4 @@
 # CS61A
 This is the personal sol repo of CS61A-2024Fall
 
-There is the origin source file of course in /src fold.
+There are the origin source files of course(CS61A-2024Fall) in /src fold.
