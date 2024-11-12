@@ -102,6 +102,7 @@ class Ant(Insect):
     food_cost = 0
     is_container = False
     # ADD CLASS ATTRIBUTES HERE
+    not_doubled = True
 
     def __init__(self, health=1):
         super().__init__(health)
@@ -145,6 +146,9 @@ class Ant(Insect):
         """Double this ants's damage, if it has not already been doubled."""
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        if self.not_doubled:
+            self.damage *= 2
+            self.not_doubled = False
         # END Problem 12
 
 
@@ -427,7 +431,7 @@ class QueenAnt(ThrowerAnt):
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 12
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 12
 
     def action(self, gamestate):
@@ -436,6 +440,14 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        super().action(gamestate)
+        current = self.place.exit
+        while current is not None:
+            if current.ant:
+                current.ant.double()
+                if current.ant.is_container and current.ant.ant_contained:
+                    current.ant.ant_contained.double()
+            current = current.exit
         # END Problem 12
 
     def reduce_health(self, amount):
@@ -444,6 +456,8 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        if amount >= self.health:
+            ants_lose()
         # END Problem 12
 
 
