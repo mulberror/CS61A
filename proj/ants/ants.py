@@ -477,7 +477,18 @@ class SlowThrower(ThrowerAnt):
     def throw_at(self, target):
         # BEGIN Problem EC 1
         "*** YOUR CODE HERE ***"
-        # END Problem EC 1
+        if not target.action_flag:
+            target.past_action = target.action
+            target.flag = True
+            
+        def new_action(gamestate):
+            if target.slow_time == 0 or gamestate.time % 2 == 0:
+                target.past_action(gamestate)
+            if target.slow_time > 0:
+                target.slow_time -= 1
+        
+        target.action = new_action
+        target.slow_time = 5        
 
 
 class ScaryThrower(ThrowerAnt):
@@ -555,7 +566,11 @@ class Bee(Insect):
     name = 'Bee'
     damage = 1
     is_waterproof = True
-
+    slow_time = 0
+    flag = False
+    
+    def past_action(self, gamestate):
+        pass
 
     def sting(self, ant):
         """Attack an ANT, reducing its health by 1."""
