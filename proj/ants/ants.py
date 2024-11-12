@@ -53,6 +53,7 @@ class Insect:
     next_id = 0  # Every insect gets a unique id number
     damage = 0
     # ADD CLASS ATTRIBUTES HERE
+    is_waterproof = False
 
     def __init__(self, health, place=None):
         """Create an Insect with a health amount and a starting PLACE."""
@@ -119,7 +120,15 @@ class Ant(Insect):
             place.ant = self
         else:
             # BEGIN Problem 8b
-            assert place.ant is None, 'Too many ants in {0}'.format(place)
+            # assert place.ant is None, 'Too many ants in {0}'.format(place)
+            assert place.ant.is_container != self.is_container, 'Too many ants in {0}'.format(place)
+            if place.ant.is_container:
+                assert place.ant.can_contain(self), 'Too many ants in {0}'.format(place)
+                place.ant.store_ant(self)
+            else:
+                assert self.can_contain(place.ant), 'Too many ants in {0}'.format(place)
+                self.store_ant(place.ant)
+                place.ant = self
             # END Problem 8b
         Insect.add_to(self, place)
 
@@ -314,11 +323,17 @@ class ContainerAnt(Ant):
     def can_contain(self, other):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if other.is_container:
+            return False
+        if self.ant_contained:
+            return False
+        return True
         # END Problem 8a
 
     def store_ant(self, ant):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        self.ant_contained = ant
         # END Problem 8a
 
     def remove_ant(self, ant):
@@ -339,6 +354,8 @@ class ContainerAnt(Ant):
     def action(self, gamestate):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if self.ant_contained:
+            self.ant_contained.action(gamestate)
         # END Problem 8a
 
 
@@ -349,11 +366,30 @@ class BodyguardAnt(ContainerAnt):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 8c
+    def __init__(self, health=2):
+        super().__init__(health)
 
 # BEGIN Problem 9
 # The TankAnt class
+class TankAnt(ContainerAnt):
+    name = 'Tank'
+    food_cost = 6
+    damage = 1
+    implemented = True
+    
+    def __init__(self, health=2):
+        super().__init__(health)
+
+    def action(self, gamestate):
+        if self.ant_contained:
+            self.ant_contained.action(gamestate)
+
+        # print('DEBUG', len(self.place.bees))
+        for bee in list(self.place.bees):
+            # print(f'DEBUG: {bee}, {bee.health}, {self.damage}')
+            bee.reduce_health(self.damage)
 # END Problem 9
 
 
@@ -365,10 +401,22 @@ class Water(Place):
         its health to 0."""
         # BEGIN Problem 10
         "*** YOUR CODE HERE ***"
+        super().add_insect(insect)
+        if not insect.is_waterproof:
+            insect.reduce_health(insect.health)
         # END Problem 10
 
 # BEGIN Problem 11
 # The ScubaThrower class
+
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    food_cost = 6
+    is_waterproof = True
+
+    def __init__(self, health=1):
+        super().__init__(health)
+    
 # END Problem 11
 
 
