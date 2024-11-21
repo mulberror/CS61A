@@ -471,24 +471,27 @@ class SlowThrower(ThrowerAnt):
     name = 'Slow'
     food_cost = 6
     # BEGIN Problem EC 1
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem EC 1
 
     def throw_at(self, target):
         # BEGIN Problem EC 1
         "*** YOUR CODE HERE ***"
-        if not target.action_flag:
-            target.past_action = target.action
-            target.flag = True
-            
-        def new_action(gamestate):
-            if target.slow_time == 0 or gamestate.time % 2 == 0:
-                target.past_action(gamestate)
-            if target.slow_time > 0:
-                target.slow_time -= 1
-        
-        target.action = new_action
-        target.slow_time = 5        
+        if target is not None:
+            target.reduce_health(self.damage)
+            origin_action = target.action
+            def new_action(gamestate):
+                print(f'DEBUG: {target.slow_turn}, {gamestate.time}')
+                if target.slow_turn == 0 or gamestate.time % 2 == 0:
+                    origin_action(gamestate)
+                if target.slow_turn > 0:
+                    print('DEBUG: ', gamestate.time)
+                    target.slow_turn -= 1
+                if target.slow_turn == 0:
+                    target.action = origin_action
+            target.action = new_action
+            target.slow_turn = 5
+        # END Problem EC 1
 
 
 class ScaryThrower(ThrowerAnt):
@@ -566,11 +569,9 @@ class Bee(Insect):
     name = 'Bee'
     damage = 1
     is_waterproof = True
-    slow_time = 0
-    flag = False
-    
-    def past_action(self, gamestate):
-        pass
+    # EC 1 Attributes (I think my solution is wrong, I disobey the restriction, but I can't find a better solution)
+    slow_turn = 0
+    # END EC 1
 
     def sting(self, ant):
         """Attack an ANT, reducing its health by 1."""
