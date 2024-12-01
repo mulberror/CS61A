@@ -185,9 +185,13 @@ def do_cond_form(expressions, env):
                 raise SchemeError('else must be last')
         else:
             test = scheme_eval(clause.first, env)
-        if is_scheme_true(test):
+        if is_scheme_true(test): # 
             # BEGIN PROBLEM 13
             "*** YOUR CODE HERE ***"
+            # print('DEBUG:', clause)
+            if clause.rest == nil:
+                return test
+            return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
 
@@ -212,7 +216,18 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
+    print('DEBUG: bindings =', bindings)
+    current = bindings
+    while current is not nil:
+        binding = current.first
+        validate_form(binding, 2, 2)
+        key, value = binding.first, scheme_eval(binding.rest.first, env)
+        names = Pair(key, names)
+        vals = Pair(value, vals)
+        # print('DEBUG: names =', names, ', vals =', vals)
+        current = current.rest
     # END PROBLEM 14
+    validate_formals(names)
     return env.make_child_frame(names, vals)
 
 
