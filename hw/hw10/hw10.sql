@@ -47,12 +47,12 @@ CREATE TABLE siblings AS
 CREATE TABLE sentences AS
   SELECT "The two siblings, " || name1 || " and " || name2 || ", have the same size: " || size_of_dogs.size AS sentence FROM siblings JOIN size_of_dogs ON name1 = size_of_dogs.name;
 
-CREATE TABLE TEMP AS 
-  SELECT fur
-  FROM dogs
-  GROUP BY fur
-  HAVING MIN(height) >= (SELECT AVG(height) * 0.7 FROM dogs GROUP BY fur) 
-    AND MAX(height) <= (SELECT AVG(height) * 1.3 FROM dogs GROUP BY fur);
+-- CREATE TABLE TEMP AS 
+--   SELECT fur
+--   FROM dogs
+--   GROUP BY fur
+--   HAVING MIN(height) >= (SELECT AVG(height) * 0.7 FROM dogs GROUP BY fur) 
+--     AND MAX(height) <= (SELECT AVG(height) * 1.3 FROM dogs GROUP BY fur);
 
 -- Height range for each fur type where all of the heights differ by no more than 30% from the average height
 CREATE TABLE low_variance AS

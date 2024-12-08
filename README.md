@@ -1,4 +1,6 @@
-# CS61A
+# CS61A-2024Fall
+
+~~This course is almost completed.~~
 
 This is the personal sol repo of CS61A-2024Fall
 
